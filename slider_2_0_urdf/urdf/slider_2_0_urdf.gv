@@ -1,0 +1,47 @@
+digraph G {
+node [shape=box];
+"world" [label="world"];
+"base_link" [label="base_link"];
+"Left_Pitch_casing" [label="Left_Pitch_casing"];
+"Left_Slide_Casing" [label="Left_Slide_Casing"];
+"Left_Leg" [label="Left_Leg"];
+"Left_Foot_Pitch_Link" [label="Left_Foot_Pitch_Link"];
+"Left_Foot" [label="Left_Foot"];
+"Right_Pitch_casing" [label="Right_Pitch_casing"];
+"Right_Slide_Casing" [label="Right_Slide_Casing"];
+"Right_Leg" [label="Right_Leg"];
+"Right_Foot_Pitch_Link" [label="Right_Foot_Pitch_Link"];
+"Right_Foot" [label="Right_Foot"];
+"camera_link" [label="camera_link"];
+"camera_link_fake" [label="camera_link_fake"];
+"imu_link" [label="imu_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"world" -> "base_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"base_joint" -> "base_link"
+"base_link" -> "Left_Roll" [label="xyz: 0 0.075 0.591116 \nrpy: 0 -0 0"]
+"Left_Roll" -> "Left_Pitch_casing"
+"Left_Pitch_casing" -> "Left_Pitch" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"Left_Pitch" -> "Left_Slide_Casing"
+"Left_Slide_Casing" -> "Left_Slide" [label="xyz: 0 0.1042 0 \nrpy: 0 -0 0"]
+"Left_Slide" -> "Left_Leg"
+"Left_Leg" -> "Left_Foot_Pitch" [label="xyz: 0 0 -0.591116 \nrpy: 0 -0 0"]
+"Left_Foot_Pitch" -> "Left_Foot_Pitch_Link"
+"Left_Foot_Pitch_Link" -> "Left_Foot_Roll" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"Left_Foot_Roll" -> "Left_Foot"
+"base_link" -> "Right_Roll" [label="xyz: 0 -0.075 0.591116 \nrpy: 0 -0 0"]
+"Right_Roll" -> "Right_Pitch_casing"
+"Right_Pitch_casing" -> "Right_Pitch" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"Right_Pitch" -> "Right_Slide_Casing"
+"Right_Slide_Casing" -> "Right_Slide" [label="xyz: 0 -0.1042 0 \nrpy: 0 -0 0"]
+"Right_Slide" -> "Right_Leg"
+"Right_Leg" -> "Right_Foot_Pitch" [label="xyz: 0 0 -0.591116 \nrpy: 0 -0 0"]
+"Right_Foot_Pitch" -> "Right_Foot_Pitch_Link"
+"Right_Foot_Pitch_Link" -> "Right_Foot_Roll" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"Right_Foot_Roll" -> "Right_Foot"
+"base_link" -> "camera_joint" [label="xyz: 0.12 0 0.65 \nrpy: 0 0.87 0"]
+"camera_joint" -> "camera_link"
+"camera_link" -> "camera_joint_fake" [label="xyz: 0 0 0 \nrpy: -1.5708 -0 -1.5708"]
+"camera_joint_fake" -> "camera_link_fake"
+"base_link" -> "imu_joint" [label="xyz: -0.0765324 4.94419e-09 0.610521 \nrpy: 0 -0 0"]
+"imu_joint" -> "imu_link"
+}

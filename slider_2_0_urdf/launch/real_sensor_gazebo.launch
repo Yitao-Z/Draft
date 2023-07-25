@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+  <!-- Start position of waffle robot in scene. -->
+  <arg name="x_pos" default="-3.0"/>
+  <arg name="y_pos" default="1.0"/>
+  <arg name="z_pos" default="0.0"/>
+
+  <!-- Start gazebo server with turtlebot3_house scene. -->
+  <include file="$(find time_slider_gazebo)/launch/SLIDER_world.launch">
+    <arg name="paused"        value="false"/>
+    <arg name="use_sim_time"  value="true"/>
+    <arg name="gui"           value="false"/>
+    <arg name="headless"      value="false"/>
+    <arg name="debug"         value="false"/>
+  </include>
+
+
+
+  <include file = "/home/robin/catkin_ws/src/ros_astra_camera/launch/astra.launch"/>  
+
+
+  <!-- Load robot_description param for tf, rviz and gazebo spawn. -->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find time_slider_gazebo)/urdf/SLIDER_astra.urdf'" /> 
+
+  <!-- Spawn robot into gazebo based on robot_description. -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model slider_2_0 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <!--Publish robots tf's. -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="waffle_state_publisher" />
+  
+<!--Publish odom tf's. -->
+  <node pkg = "elevation_mapping_demos" type = "odom_listener.py" name = "odom2tf_publisher" />
+
+  <node pkg="elevation_mapping_demos" type="tf_to_pose_publisher.py" name="waffle_pose_publisher">
+    <param name="from_frame" type="string" value="odom" />
+    <param name="to_frame"   type="string" value="world" />
+  </node>
+  
+    <!-- Launch elevation mapping node. -->
+  <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
+    <rosparam command="load" file="$(find elevation_mapping_demos)/config/robots/slider_astra.yaml" />
+    <rosparam command="load" file="$(find elevation_mapping)/config/sensor_processors/perfect.yaml" />
+    <rosparam command="load" file="$(find elevation_mapping_demos)/config/postprocessing/postprocessor_pipeline.yaml" />
+  </node>
+
+
+  <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find slider_2_0_urdf)/rviz/slider.rviz" />
+
+
+</launch>

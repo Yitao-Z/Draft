@@ -1,0 +1,33 @@
+<param name="robot_description" textfile="$(find test_node)/urdf/mycar.urdf" />
+
+    translation << 1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f;
+    pcl::transformPointCloud(*cloud, *cloud, translation);
+
+    <node pkg="test_pkg" type="stair_percep" name="stair_percep" output="screen" />
+
+      for (const auto& field : msg->fields)
+{
+    ROS_INFO("Name: %s, offset: %d, datatype: %d, count: %d", 
+             field.name.c_str(), 
+             field.offset, 
+             field.datatype, 
+             field.count);
+  }
+
+  //std::cout << rosPointCloud->fields.size() << std::endl;
+  //for(const auto& field : rosPointCloud.fields)
+  //{
+  //  ROS_INFO("Field '%s' at offset %d", field.name.c_str(), field.offset);
+  //}
+
+
+  tf::TransformBroadcaster tf_broadcaster;
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(0.0, 0.0, 0.0)); // Change to your desired position
+  tf::Quaternion q;
+  q.setRPY(0, 0, 0);  // Change to your desired orientation
+  transform.setRotation(q);
+  tf_broadcaster.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "color_f"));

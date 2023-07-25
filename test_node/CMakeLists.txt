@@ -15,8 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   urdf
   xacro
-  gazebo_msgs
-  cv_bridge
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -210,36 +209,3 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-#add_executable (my_stl2pcl my_stl2pcl.cpp)
-
-find_package(PCL REQUIRED)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
-
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-find_package(CGAL QUIET COMPONENTS Core)
-include(${CGAL_USE_FILE})
-
-
-
-#target_link_libraries (my_stl2pcd ${PCL_LIBRARIES})
-
-add_executable (my_joint_state src/my_joint_state.cpp)
-target_link_libraries (my_joint_state ${catkin_LIBRARIES})
-
-add_executable (left_image src/left_image.cpp)
-target_link_libraries (left_image ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${CGAL_LIBRARIES})
-
-add_executable (depth2pc src/depth2pc.cpp)
-target_link_libraries (depth2pc ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES})
-
-add_executable (my_stl2pcd src/my_stl2pcd.cpp)
-target_link_libraries (my_stl2pcd ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} ${CGAL_LIBRARIES})
-
-
-

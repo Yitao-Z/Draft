@@ -16,7 +16,10 @@ while True:
         break
     results = model.track(frame, persist=True)
     boxes = results[0].boxes.xyxy.cpu().numpy().astype(int)
-    ids = results[0].boxes.id.cpu().numpy().astype(int)
+    if results[0].boxes.id is None:
+        ids = np.array([0])
+    else:
+        ids = results[0].boxes.id.cpu().numpy().astype(int)
     for box, id in zip(boxes, ids):
         if id == 3:
             print("#######################################")

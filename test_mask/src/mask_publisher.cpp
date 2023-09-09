@@ -106,7 +106,7 @@ const Eigen::MatrixXi& surf_vertex_index)
 int main(int argc, char **argv)
 {   
     // input: Link trans
-    float theta[10] = {0.3, 1.2, 0.26, -0.5, -0.5, -0., -0.0, -0., 0., 0.};
+    float theta[10] = {0.0, 0.8, -0.1, -0.8, -0.0, -0., -0.0, -0., 0., 0.};
     //auto start = std::chrono::high_resolution_clock::now();
     auto start = std::chrono::steady_clock::now();
     // vertex of leg and foot
@@ -489,6 +489,7 @@ int main(int argc, char **argv)
 
     //auto stop = std::chrono::high_resolution_clock::now();
     //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
     auto stop = std::chrono::steady_clock::now();
     std::chrono::duration<double> duration = 1000*(stop - start);
     std::cout << "Time taken by function: " << duration.count() << " milliseconds" << std::endl;
